@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Vision Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+
+    <main class="app-shell">
+        <section class="hero">
+            <div>
+                <p class="eyebrow">Assistive AI • Real-Time Safety • Multilingual Voice</p>
+                <h1>AI Vision Assistant for Blind People</h1>
+                <p class="subtitle">
+                    Detects people, vehicles, and obstacles from your camera and speaks safe navigation instructions.
+                </p>
+            </div>
+            <div class="status-pill" id="dangerPill">SAFE</div>
+        </section>
+
+        <section class="grid">
+            <div class="camera-card glass">
+                <div class="card-header">
+                    <h2>Live AI Camera</h2>
+                    <span class="live-dot">● LIVE</span>
+                </div>
+                <img src="{{ url_for('video_feed') }}" class="video-feed" alt="Live camera detection feed" />
+            </div>
+
+            <aside class="control-card glass">
+                <h2>Voice Settings</h2>
+
+                <label>Language</label>
+                <select id="languageSelect">
+                    {% for lang in languages %}
+                    <option value="{{ lang }}" {% if lang == 'english' %}selected{% endif %}>{{ lang.title() }}</option>
+                    {% endfor %}
+                </select>
+
+                <label>Voice Mode</label>
+                <select id="voiceMode">
+                    <option value="offline" selected>Offline Voice</option>
+                    <option value="online">Online Multilingual Voice</option>
+                </select>
+
+                <div class="toggle-row">
+                    <span>Voice Alerts</span>
+                    <input type="checkbox" id="voiceEnabled" checked />
+                </div>
+
+                <button onclick="saveSettings()">Apply Settings</button>
+                <button class="secondary" onclick="testVoice()">Test Voice</button>
+
+                <div class="info-box">
+                    <strong>Phone camera support:</strong>
+                    <p>Use an IP webcam app and set CAMERA_URL before running Flask.</p>
+                </div>
+            </aside>
+        </section>
+
+        <section class="bottom-grid">
+            <div class="glass panel">
+                <h2>Current Instruction</h2>
+                <p class="instruction" id="instruction">System ready.</p>
+                <p class="translated" id="translatedInstruction">System ready.</p>
+            </div>
+
+            <div class="glass panel">
+                <h2>Detected Objects</h2>
+                <ul id="objectsList">
+                    <li>No objects yet.</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
